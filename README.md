@@ -56,3 +56,66 @@ Como stack utilizada, opto pelas seguintes tecnologias:
 
 ---
 
+### 🎲 Modelagem de Dados (MVP
+
+Este documento descreve a modelagem de dados do MVP considerando o processamento de **boletos vencidos em PDF**, utilizando como exemplo um boleto do cliente com razão social **RPD**.
+
+🎯 Objetivo da Modelagem
+
+Garantir que o sistema:
+- Identifique unicamente cada boleto
+- Extraia informações relevantes do PDF
+- Evite cobranças duplicadas
+- Permita o envio e controle de emails de cobrança
+
+🧠 Conceito Central: Boleto
+
+No contexto deste sistema, um **boleto** representa:
+- Um documento financeiro oficial
+- Uma cobrança em aberto
+- Uma unidade independente de processamento
+
+🧾 Entidade Principal: Boleto
+
+### **Exemplo real**
+- Cliente (Razão Social): **RPD**
+- Situação: boleto vencido
+- Origem: PDF baixado manualmente do Itaú
+
+Estrutura da Entidade `Boleto`
+| Campo | Tipo | Descrição |
+|------|------|----------|
+| id | UUID | Identificador único interno |
+| razao_social | VARCHAR | Nome do cliente (ex: RPD) |
+| email_cliente | VARCHAR | Email para cobrança |
+| valor | DECIMAL(10,2) | Valor do boleto |
+| data_vencimento | DATE | Data de vencimento |
+| linha_digitavel | VARCHAR | Código do boleto |
+| nosso_numero | VARCHAR | Identificador bancário (se existir) |
+| status | ENUM | `VENCIDO` |
+| hash_pdf | VARCHAR | Hash SHA-256 do PDF |
+| caminho_pdf | VARCHAR | Local de armazenamento do PDF |
+| data_importacao | TIMESTAMP | Data do upload |
+| ultima_cobranca | TIMESTAMP | Data do último email enviado |
+
+📧 Entidade de Apoio: Emails Enviados
+
+**Finalidade**
+Registrar cada tentativa de cobrança realizada pelo sistema.
+
+📌 Estrutura da Entidade `emails_enviados`
+
+| Campo | Tipo | Descrição |
+|------|------|----------|
+| id | UUID | Identificador único |
+| boleto_id | UUID | Referência ao boleto |
+| data_envio | TIMESTAMP | Quando o email foi enviado |
+| tipo | VARCHAR | Tipo de cobrança (ex: AVISO) |
+
+🔄 Relacionamento entre entidades
+
+```text
+BOLETO 1 ---- N EMAILS_ENVIADOS
+
+
+
