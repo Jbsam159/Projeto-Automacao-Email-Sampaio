@@ -1,17 +1,21 @@
 # ⭐ Projeto Automação de Envio de Emails
 
 ### 📌 Sobre o Projeto
+
 O projeto tem o principal objetivo de automatizar o envio de boletos para os clientes que ainda não pagaram, erradicando todo o processo manual de verificar qual cliente ainda não pagou, escrever o email e enviar.
 
 ---
 
 ### 🎯 Problema que Resolve
+
 O projeto visa solucionar o problema da lerdeza de averiguar todo dia qual cliente ainda não pagou e escrever manualmente um email para o mesmo
 
 ---
 
 ### 🧩 Escopo do MVP
+
 ✅ O MVP vai fazer:
+
 - Upload de 1 ou vários PDFs de boletos
 - Extração automática de informações:
   - Nome do cliente
@@ -24,15 +28,16 @@ O projeto visa solucionar o problema da lerdeza de averiguar todo dia qual clien
 - Registro de:
   - Data de envio
   - Qual boleto foi cobrado
--  Evitar cobrança duplicada do mesmo boleto
+- Evitar cobrança duplicada do mesmo boleto
 
 ❌ O MVP não vai fazer:
--  Login no banco
--  Integração direta com o Itaú
--  Geração de boletos
--  Confirmação de pagamento
--  Dashboard complexo
--  Reenvio automático (fica para fase 2)
+
+- Login no banco
+- Integração direta com o Itaú
+- Geração de boletos
+- Confirmação de pagamento
+- Dashboard complexo
+- Reenvio automático (fica para fase 2)
 
 ---
 
@@ -49,6 +54,7 @@ O projeto visa solucionar o problema da lerdeza de averiguar todo dia qual clien
 ---
 
 ### 🛠️ Stack Utilizada
+
 Como stack utilizada, opto pelas seguintes tecnologias:
 
 - Backend: Python + FastAPI + PostgreSQL
@@ -63,6 +69,7 @@ Este documento descreve a modelagem de dados do MVP considerando o processamento
 🎯 Objetivo da Modelagem
 
 Garantir que o sistema:
+
 - Identifique unicamente cada boleto
 - Extraia informações relevantes do PDF
 - Evite cobranças duplicadas
@@ -71,6 +78,7 @@ Garantir que o sistema:
 🧠 Conceito Central: Boleto
 
 No contexto deste sistema, um **boleto** representa:
+
 - Um documento financeiro oficial
 - Uma cobrança em aberto
 - Uma unidade independente de processamento
@@ -78,6 +86,7 @@ No contexto deste sistema, um **boleto** representa:
 🧾 Entidade Principal: Boleto
 
 ### **Exemplo real**
+
 - Cliente (Razão Social): **RPD**
 - Situação: boleto vencido
 - Origem: PDF baixado manualmente do Itaú
@@ -105,17 +114,21 @@ Registrar cada tentativa de cobrança realizada pelo sistema.
 
 📌 Estrutura da Entidade `emails_enviados`
 
-| Campo | Tipo | Descrição |
-|------|------|----------|
-| id | UUID | Identificador único |
-| boleto_id | UUID | Referência ao boleto |
-| data_envio | TIMESTAMP | Quando o email foi enviado |
-| tipo | VARCHAR | Tipo de cobrança (ex: AVISO) |
+| Campo      | Tipo      | Descrição                    |
+| ---------- | --------- | ---------------------------- |
+| id         | UUID      | Identificador único          |
+| boleto_id  | UUID      | Referência ao boleto         |
+| data_envio | TIMESTAMP | Quando o email foi enviado   |
+| tipo       | VARCHAR   | Tipo de cobrança (ex: AVISO) |
 
 🔄 Relacionamento entre entidades
 
 ```text
 BOLETO 1 ---- N EMAILS_ENVIADOS
+```
 
+---
 
+### ▶️ Como Iniciar o projeto
 
+Dentro da pasta `backend/` execute o comando `.\venv\Scripts\activate` para iniciar o ambiente virtual e após isso execute o comando `uvicorn app.main:app --reload` para iniciar o servidor
