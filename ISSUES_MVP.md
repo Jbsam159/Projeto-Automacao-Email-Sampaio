@@ -4,6 +4,28 @@ Este documento descreve as **issues do MVP** do sistema de automação de cobran
 
 ---
 
+## 🎯 Visão Geral do Fluxo do MVP
+
+```text
+PDF do boleto (Itaú)
+        ↓
+Upload manual no sistema
+        ↓
+Extração de texto do PDF
+        ↓
+Parsing (regex) dos dados do boleto
+        ↓
+Validações e regras de negócio
+        ↓
+Persistência no banco
+        ↓
+Envio de email de cobrança
+        ↓
+Registro do envio
+```
+
+---
+
 ## 🧱 EPIC 1 — Setup do Projeto
 
 ### 🟢 Issue 1.1 — Inicializar backend com FastAPI
