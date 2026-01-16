@@ -1,6 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.services.file_service import generate_sha256
 import os
+from app.services.boleto_extractor import extract_text, extract_boleto_data
 
 router = APIRouter()
 
@@ -32,10 +33,20 @@ async def upload_boletos(files: list[UploadFile] = File(...)):
         with open(file_path, "wb") as f:
             f.write(file_bytes)
 
+        text = extract_text(file_path)
+
+        print("====================================")
+        print("TEXTO EXTRAÍDO DO PDF:")
+        print(text[:1000])  # imprime só os primeiros 1000 caracteres
+        print("====================================")
+
+        boleto_data = extract_boleto_data(text)
+
         saved_files.append({
             "filename": file.filename,
             "status": "salvo",
-            "hash": file_hash
+            "hash": file_hash,
+            "dados_extraidos": boleto_data
         })
 
     return {
