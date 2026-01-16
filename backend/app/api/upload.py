@@ -1,43 +1,44 @@
-import os
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from typing import List
-from app.core.config import MAX_FILE_SIZE_MB, ALLOWED_CONTENT_TYPES, UPLOAD_DIR
+from app.services.file_service import generate_sha256
+import os
 
 router = APIRouter()
 
+UPLOAD_DIR = "uploads/boletos"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-
 @router.post("/upload-boletos")
-async def upload_boletos(files: List[UploadFile] = File(...)):
+async def upload_boletos(files: list[UploadFile] = File(...)):
     saved_files = []
 
     for file in files:
-        # Validação de tipo
-        if file.content_type not in ALLOWED_CONTENT_TYPES:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Arquivo inválido: {file.filename}"
-            )
+        if file.content_type != "application/pdf":
+            raise HTTPException(status_code=400, detail="Apenas PDFs são permitidos")
 
-        # Validação de tamanho
-        contents = await file.read()
-        size_mb = len(contents) / (1024 * 1024)
+        file_bytes = await file.read()
 
-        if size_mb > MAX_FILE_SIZE_MB:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Arquivo muito grande: {file.filename}"
-            )
+        file_hash = generate_sha256(file_bytes)
+        file_path = os.path.join(UPLOAD_DIR, f"{file_hash}.pdf")
 
-        file_path = os.path.join(UPLOAD_DIR, file.filename)
+        # Evita salvar duplicado
+        if os.path.exists(file_path):
+            saved_files.append({
+                "filename": file.filename,
+                "status": "duplicado",
+                "hash": file_hash
+            })
+            continue
 
         with open(file_path, "wb") as f:
-            f.write(contents)
+            f.write(file_bytes)
 
-        saved_files.append(file.filename)
+        saved_files.append({
+            "filename": file.filename,
+            "status": "salvo",
+            "hash": file_hash
+        })
 
     return {
-        "message": "Upload realizado com sucesso",
+        "message": "Processamento concluído",
         "files": saved_files
     }
