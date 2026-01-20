@@ -2,6 +2,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.services.file_service import generate_sha256
 import os
 from app.services.boleto_extractor import extract_text, extract_boleto_data
+from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
 
@@ -41,6 +42,12 @@ async def upload_boletos(files: list[UploadFile] = File(...)):
         print("====================================")
 
         boleto_data = extract_boleto_data(text)
+
+        valor = boleto_data.get("valor")
+
+        boleto_data["valor"] = (
+            format(valor, ".2f") if valor is not None else None
+        )
 
         saved_files.append({
             "filename": file.filename,
