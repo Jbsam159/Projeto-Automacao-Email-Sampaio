@@ -17,5 +17,6 @@ class Boleto(Base):
   linha_digitavel = Column(String, nullable=False)
 
   status = Column(String, nullable=False, default="pendente")
+  arquivo_path = Column(String, nullable=False)
 
   criado_em = Column(DateTime(timezone=True), server_default=func.now())
