@@ -1,20 +1,16 @@
-from datetime import date
 from app.core.database import SessionLocal
-from app.models.boleto import Boleto
+from app.services.boleto_service import criar_boleto
 
 db = SessionLocal()
 
-boleto = Boleto(
-  hash_pdf="hash_teste_123",
-  nome_cliente="João Victor",
-  valor=150.75,
-  data_vencimento=date(2026, 2, 10),
-  linha_digitavel="12345.67890 12345.678901 1 12345678901234"
-)
+boleto = criar_boleto(db, {
+    "hash_pdf": "hash_teste",
+    "nome_cliente": "Cliente Teste",
+    "valor": 123.45,
+    "data_vencimento": "2026-01-16",
+    "linha_digitavel": "123456789",
+    "status": "pendente",
+    "arquivo_path": "uploads/teste.pdf"
+})
 
-db.add(boleto)
-db.commit()
-db.refresh(boleto)
-
-print("Boleto salvo com ID:", boleto.id)
-db.close()
+print(boleto.id)

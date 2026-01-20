@@ -3,6 +3,10 @@ from app.services.file_service import generate_sha256
 import os
 from app.services.boleto_extractor import extract_text, extract_boleto_data
 from fastapi.encoders import jsonable_encoder
+from app.services.boleto_service import criar_boleto
+from app.core.database import get_db
+from fastapi import Depends
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 
@@ -10,7 +14,7 @@ UPLOAD_DIR = "uploads/boletos"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @router.post("/upload-boletos")
-async def upload_boletos(files: list[UploadFile] = File(...)):
+async def upload_boletos(files: list[UploadFile] = File(...), db: Session = Depends(get_db)):
     saved_files = []
 
     for file in files:
@@ -48,6 +52,19 @@ async def upload_boletos(files: list[UploadFile] = File(...)):
         boleto_data["valor"] = (
             format(valor, ".2f") if valor is not None else None
         )
+
+        dados_boleto = {
+            "hash_pdf": file_hash,
+            "nome_cliente": boleto_data.get("nome_cliente"),
+            "valor": boleto_data.get("valor"),
+            "data_vencimento": boleto_data.get("data_vencimento"),
+            "linha_digitavel": boleto_data.get("linha_digitavel"),
+            "status": "pendente",
+            "arquivo_path": file_path,
+        }
+
+        # 🔹 Persistência (issue 3.1 / 3.2)
+        criar_boleto(db, dados_boleto)
 
         saved_files.append({
             "filename": file.filename,
