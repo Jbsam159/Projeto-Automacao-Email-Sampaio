@@ -38,7 +38,6 @@ async def upload_boletos(
             "valor": boleto_data["valor"],
             "data_vencimento": boleto_data["data_vencimento"],
             "linha_digitavel": boleto_data["linha_digitavel"],
-            "status": "pendente",
             "arquivo_path": file_path,
         }
 
