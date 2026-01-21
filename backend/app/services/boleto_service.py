@@ -10,6 +10,7 @@ def criar_boletos(db: Session, dados: dict) -> Boleto:
     raise ValueError("Boleto Duplicado!")
   
   boleto = Boleto(**dados)
+  
   db.add(boleto)
   db.commit()
   db.refresh(boleto)

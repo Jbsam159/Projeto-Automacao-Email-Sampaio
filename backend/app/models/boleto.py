@@ -19,3 +19,4 @@ class Boleto(Base):
   status = Column(String, nullable=False, default="pendente")
 
   criado_em = Column(DateTime(timezone=True), server_default=func.now())
+  arquivo_path = Column(String, nullable=False)  # ✅ AQUI
