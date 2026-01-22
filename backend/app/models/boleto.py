@@ -21,3 +21,5 @@ class Boleto(Base):
 
   criado_em = Column(DateTime(timezone=True), server_default=func.now())
   arquivo_path = Column(String, nullable=False)  # ✅ AQUI
+
+  email_cliente = Column(String, nullable=False)
