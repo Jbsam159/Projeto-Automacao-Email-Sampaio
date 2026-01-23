@@ -8,6 +8,9 @@ from fastapi.encoders import jsonable_encoder
 from app.core.database import get_db
 from app.services.boleto_service import criar_boletos
 
+from app.services.email_service import enviar_email
+from app.services.email_templates import template_cobranca_boleto
+
 router = APIRouter()
 
 UPLOAD_DIR = "uploads/boletos"
@@ -43,8 +46,25 @@ async def upload_boletos(
         }
 
         try:
-            criar_boletos(db, dados_boleto)
-            status = "salvo"
+            boleto = criar_boletos(db, dados_boleto)
+
+            corpo_email = template_cobranca_boleto({
+                "nome_cliente": boleto.nome_cliente,
+                "valor": boleto.valor,
+                "data_vencimento": boleto.data_vencimento,
+                "linha_digitavel": boleto.linha_digitavel
+
+            })
+
+            enviar_email(
+                para="cliente@gmail.com",
+                assunto="Boleto em Aberto",
+                corpo=corpo_email,
+                anexo_path=boleto.arquivo_path
+            )
+
+            status = "salvo_enviado"
+            
         except ValueError:
             status = "duplicado"
 
