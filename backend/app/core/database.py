@@ -29,3 +29,5 @@ def get_db() -> Generator:
     yield db
   finally:
     db.close()
+
+from app.models import boleto, email_enviado

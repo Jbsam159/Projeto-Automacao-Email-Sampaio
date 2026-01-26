@@ -18,6 +18,7 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @router.post("/upload-boletos")
 async def upload_boletos(
+    email_cliente: str,
     files: list[UploadFile] = File(...),
     db: Session = Depends(get_db)
 ):
@@ -42,31 +43,42 @@ async def upload_boletos(
             "data_vencimento": boleto_data["data_vencimento"],
             "linha_digitavel": boleto_data["linha_digitavel"],
             "arquivo_path": file_path,
-            "email_cliente": boleto_data["email_cliente"]
+            "email_cliente": email_cliente
         }
 
         try:
             boleto = criar_boletos(db, dados_boleto)
 
+        except ValueError:
+            saved_files.append({
+                "filename": file.filename,
+                "hash": file_hash,
+                "status": "duplicado",
+            })
+            continue
+
+        try:
             corpo_email = template_cobranca_boleto({
                 "nome_cliente": boleto.nome_cliente,
                 "valor": boleto.valor,
                 "data_vencimento": boleto.data_vencimento,
-                "linha_digitavel": boleto.linha_digitavel
-
+                "linha_digitavel": boleto.linha_digitavel,
             })
 
             enviar_email(
-                para="cliente@gmail.com",
+                para=email_cliente,
                 assunto="Boleto em Aberto",
                 corpo=corpo_email,
                 anexo_path=boleto.arquivo_path
             )
 
             status = "salvo_enviado"
-            
-        except ValueError:
-            status = "duplicado"
+
+        except Exception as e:
+            # Email falhou, mas boleto está salvo
+            status = "salvo_nao_enviado"
+            print(f"Erro ao enviar email: {e}")
+
 
         saved_files.append({
             "filename": file.filename,

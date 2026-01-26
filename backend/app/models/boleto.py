@@ -2,10 +2,11 @@
 from sqlalchemy import Column, Integer, String, Date, DateTime, Numeric
 from sqlalchemy.sql import func
 from app.core.database import Base
+from sqlalchemy.orm import relationship
 
 # Criando modelo do Boleto
 class Boleto(Base):
-  __tablename__ = "Boletos"
+  __tablename__ = "boletos"
 
   id = Column(Integer, primary_key=True, index=True)
 
@@ -17,9 +18,10 @@ class Boleto(Base):
   linha_digitavel = Column(String, nullable=False)
 
   status = Column(String, nullable=False, default="pendente")
-  arquivo_path = Column(String, nullable=False)
 
   criado_em = Column(DateTime(timezone=True), server_default=func.now())
   arquivo_path = Column(String, nullable=False)  # ✅ AQUI
 
   email_cliente = Column(String, nullable=False)
+
+  emails_enviados = relationship("EmailEnviado", back_populates="boleto", cascade="all, delete-orphan")
