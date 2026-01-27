@@ -192,9 +192,129 @@ Registro do envio
 
 ---
 
-## 📘 EPIC 6 — Documentação
+### 🟢 Issue 6.1 — Setup do projeto frontend
 
-### 🟢 Issue 6.1 — Criar README do MVP
+**Descrição**
+
+Criar o projeto base do frontend com Vite + React + TypeScript.
+
+**Tarefas**
+
+- Criar projeto com Vite
+- Limpar arquivos padrão
+- Criar estrutura inicial de pastas
+- Configurar Axios com baseURL do backend
+- Testar comunicação com backend (ping simples)
+
+**Critérios de aceite**
+
+- Projeto sobe com npm run dev
+- Estrutura organizada
+- Axios configurado e funcionando
+
+---
+
+### 🟢 Issue 6.2 — Tela de Upload de Boletos
+
+**Descrição**
+
+Criar a tela principal para upload de boletos PDF.
+
+**Funcionalidades**
+
+- Campo de email do cliente
+- Upload de um ou vários arquivos PDF
+- Validação básica (PDF obrigatório)
+- Botão de envio
+- Loading durante processamento
+
+**Integração**
+- ``POST /upload-boletos``
+
+**Critérios de aceite**
+
+- Upload funcional
+- Requisição enviada corretamente
+- Interface responsiva
+
+---
+
+### 🟢 Issue 6.3 — Exibição de status do processamento
+
+**Descrição**
+
+Exibir o resultado retornado pelo backend após o upload.
+
+**Funcionalidades**
+
+- Lista de arquivos processados
+- Status exibido de forma clara:
+        - salvo_enviado
+        - salvo_nao_enviado
+        - duplicado
+        - erro_extracao
+        - dados_incompletos
+- Feedback visual (cores, ícones simples)
+
+**Critérios de aceite**
+
+- Usuário entende claramente o que aconteceu com cada boleto
+- Interface limpa e legível
+
+---
+
+### 🟢 Issue 6.4 — Tela de histórico de boletos
+
+**Descrição**
+
+Criar tela de leitura do histórico de boletos cadastrados.
+
+**Funcionalidades**
+
+- Listar boletos vindos do backend
+- Exibir:
+        - Nome do cliente
+        - Valor
+        - Data de vencimento
+        - Status
+        - Email do cliente
+- Atualização automática ao entrar na tela
+
+**Integração**
+- `GET /boletos`
+
+**Critérios de aceite**
+
+- Dados exibidos corretamente
+- Interface organizada
+- Sem edição (somente leitura)
+
+---
+
+### 🟢 Issue 6.5 — Polimento visual e UX
+
+**Descrição**
+
+Aprimorar a experiência do usuário.
+
+**Funcionalidades**
+
+- Mensagens de erro amigáveis
+- Feedback visual consistente
+- Layout alinhado e espaçado
+- Estados vazios (“Nenhum boleto encontrado”)
+
+**Critérios de aceite**
+
+- Interface profissional
+- Boa usabilidade
+- Projeto apresentável para portfólio
+
+---
+
+## 📘 EPIC 7 — Documentação
+
+### 🟢 Issue 7.1 — Criar README do MVP
 **Descrição**
 - Documentar:
   - Objetivo do projeto
@@ -213,8 +333,9 @@ Registro do envio
 2. EPIC 2 — Upload e Processamento de PDFs  
 3. EPIC 3 — Persistência e Regras de Negócio  
 4. EPIC 4 — Envio de Email  
-5. EPIC 5 — Qualidade e Segurança  
-6. EPIC 6 — Documentação  
+5. EPIC 5 — Qualidade e Segurança
+6. EPIC 6 — Documentação 
+7. EPIC 7 — Documentação  
 
 ---
 
