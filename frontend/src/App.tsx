@@ -1,5 +1,5 @@
 // Importando Pages
-import UploadBoletos from "./pages/UploadBoletos"
+import { UploadBoletos } from "./pages/UploadBoletos"
 
 function App() {
 
