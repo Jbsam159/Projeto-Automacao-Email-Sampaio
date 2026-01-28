@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # Importando Upload
 from app.api import upload
+from app.api import boletos
 
 app = FastAPI(
   title="Automação de Cobrança via Email",
@@ -20,6 +21,7 @@ app.add_middleware(
 )
 
 app.include_router(upload.router)
+app.include_router(boletos.router)
 
 @app.get("/health")
 def health_check():
