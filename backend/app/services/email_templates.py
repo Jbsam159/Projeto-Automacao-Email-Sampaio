@@ -1,32 +1,48 @@
 from datetime import datetime
 
-def template_cobranca_boleto(dados: dict) -> str:
-    """
-    Gera o corpo do email de cobrança com base nos dados do boleto
-    """
+def template_cobranca_boleto(boletos: list, logo_cid: str) -> str:
+    itens = ""
 
-    nome = dados.get("nome_cliente", "Cliente")
-    valor = dados.get("valor", "0.00")
-    vencimento = dados.get("data_vencimento", "")
-    linha_digitavel = dados.get("linha_digitavel", "")
+    for boleto in boletos:
+        itens += f"""
+        <tr>
+            <td>{boleto.nome_cliente}</td>
+            <td>R$ {boleto.valor}</td>
+            <td>{boleto.data_vencimento}</td>
+            <td>{boleto.linha_digitavel}</td>
+        </tr>
+        """
 
     return f"""
-Olá, {nome}
+    <html>
+        <body style="font-family: Arial, sans-serif; ">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="cid:{logo_cid}" width="180" style="margin-bottom:20px;" />
+            </div>
 
-Esperamos que esteja tudo bem.
+            <p>Olá,</p>
 
-Identificamos que o boleto abaixo encontra-se em aberto:
+            <p>Identificamos os seguintes boletos em aberto:</p>
 
-📄 Dados do boleto:
-• Valor: R$ {valor}
-• Vencimento: {vencimento}
-• Linha digitável:
-{linha_digitavel}
+            <table border="1" cellpadding="8" cellspacing="0" width="100%">
+                <tr>
+                    <th>Cliente</th>
+                    <th>Valor</th>
+                    <th>Vencimento</th>
+                    <th>Linha Digitável</th>
+                </tr>
+                {itens}
+            </table>
 
-Caso o pagamento já tenha sido realizado, por favor desconsidere este email.
+            <p style="margin-top: 20px;">
+                Caso o pagamento já tenha sido realizado, por favor desconsidere este email.
+            </p>
 
-Se precisar de qualquer ajuda, estamos à disposição.
+            <p>
+                Atenciosamente,<br>
+                <strong>Equipe Financeira</strong>
+            </p>
+        </body>
+    </html>
+    """
 
-Atenciosamente,
-Equipe Financeira
-"""
