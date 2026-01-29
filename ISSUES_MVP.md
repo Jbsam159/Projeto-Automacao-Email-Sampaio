@@ -291,24 +291,123 @@ Criar tela de leitura do histórico de boletos cadastrados.
 
 ---
 
-### 🟢 Issue 6.5 — Polimento visual e UX
+# 🎨 Issue 6.5 — Polimento visual e UX
 
-**Descrição**
+## Objetivo
+Aprimorar a experiência do usuário, deixando o frontend:
+- Profissional
+- Intuitivo
+- Consistente
+- Apresentável para portfólio
 
-Aprimorar a experiência do usuário.
+---
 
-**Funcionalidades**
+## 🧱 Bloco 1 — Base visual única (Fundação)
+**Status:** ✅ em andamento
 
-- Mensagens de erro amigáveis
-- Feedback visual consistente
-- Layout alinhado e espaçado
-- Estados vazios (“Nenhum boleto encontrado”)
+### O que será feito
+- Criar estilos globais (`global.css`)
+- Definir identidade visual via CSS Variables
+- Padronizar:
+  - Cores
+  - Tipografia
+  - Espaçamentos
+  - Botões
+  - Inputs
+  - Containers
+  - Cards
 
-**Critérios de aceite**
+### Resultado esperado
+- Interface consistente em todas as telas
+- Facilidade para manutenção e evolução visual
+- Aparência profissional desde o primeiro contato
 
+---
+
+## 💬 Bloco 2 — Componentes de feedback (UX essencial)
+**Status:** ⏳ pendente
+
+### O que será feito
+Criar componentes reutilizáveis para:
+- Mensagens de erro (AlertError)
+- Mensagens de sucesso (AlertSuccess)
+- Estados de aviso
+- Loading (spinner ou texto animado)
+
+### Resultado esperado
+- Feedback claro durante ações do usuário
+- Menos confusão e mais confiança na interface
+
+---
+
+## 📭 Bloco 3 — Estados vazios (Empty States)
+**Status:** ⏳ pendente
+
+### O que será feito
+- Exibir mensagens amigáveis quando:
+  - Nenhum boleto for encontrado
+  - Histórico estiver vazio
+- Evitar telas “mortas” ou confusas
+
+### Resultado esperado
+- UX mais humana
+- Interface autoexplicativa
+
+---
+
+## 🧾 Bloco 4 — Polimento da tela de Upload
+**Status:** ⏳ pendente
+
+### O que será feito
+- Melhorar layout do formulário
+- Espaçamentos consistentes
+- Mensagens de erro claras (PDF inválido, email vazio etc.)
+- Feedback visual durante o envio (loading)
+
+### Resultado esperado
+- Fluxo de upload simples e intuitivo
+- Usuário sempre sabe o que está acontecendo
+
+---
+
+## 📊 Bloco 5 — Polimento da tela de Histórico
+**Status:** ⏳ pendente
+
+### O que será feito
+- Melhorar tabela/listagem de boletos
+- Destaque visual para status:
+  - Enviado
+  - Pendente
+  - Erro
+- Layout limpo e legível
+
+### Resultado esperado
+- Leitura rápida das informações
+- Aparência de sistema real (não acadêmico)
+
+---
+
+## ✨ Bloco 6 — Ajustes finais de UX
+**Status:** ⏳ pendente
+
+### O que será feito
+- Melhorar textos e microcopy
+- Ajustar alinhamentos finais
+- Garantir responsividade básica
+- Revisão geral da experiência
+
+### Resultado esperado
+- Projeto pronto para apresentação
+- Sensação de produto finalizado
+
+---
+
+## ✅ Critérios de aceite finais
 - Interface profissional
 - Boa usabilidade
-- Projeto apresentável para portfólio
+- Feedback visual consistente
+- Estados vazios tratados
+- Projeto pronto para portfólio
 
 ---
 
