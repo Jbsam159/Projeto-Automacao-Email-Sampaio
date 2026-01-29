@@ -105,6 +105,30 @@ def extract_nome_cliente(text: str) -> str | None:
     return None
 
 
+def extract_boleto_original_block(text: str) -> str | None:
+    match = re.search(
+        r"BOLETO ORIGINAL:(.*?)(?:\n\s*\n|$)",
+        text,
+        re.IGNORECASE | re.DOTALL
+    )
+    return match.group(1) if match else None
+
+def extract_vencimento_valor_from_original(block: str):
+    venc = None
+    valor = None
+
+    venc_match = re.search(r"VCTO\s*(\d{2}/\d{2}/\d{4})", block)
+    if venc_match:
+        venc = venc_match.group(1)
+
+    valor_match = re.search(r"R\$\s*[\.\s]*([\d.,]+)", block)
+    if valor_match:
+        valor = normalize_valor(valor_match.group(1))
+
+    return venc, valor
+
+
+
 def extract_boleto_data(text: str) -> dict:
     data = {}
 
@@ -113,21 +137,33 @@ def extract_boleto_data(text: str) -> dict:
     if nome:
         data["nome_cliente"] = nome
 
-    # Valor (ex: R$ 567.40)
-    valor_match = re.search(r"R\$[\s]*([\d.,]+)", text)
-    if valor_match:
-        data["valor"] = normalize_valor(valor_match.group(1))
+    # 🟢 PRIORIDADE: BOLETO ORIGINAL
+    original_block = extract_boleto_original_block(text)
 
-    # Data de vencimento (Vencimento ou VCTO)
-    venc_match = re.search(
-        r"(?:Vencimento|VCTO)[^\d]*(\d{2}/\d{2}/\d{4})",
-        text,
-        re.IGNORECASE
-    )
-    if venc_match:
-        data["data_vencimento"] = venc_match.group(1)
+    if original_block:
+        venc, valor = extract_vencimento_valor_from_original(original_block)
 
-    # Linha digitável
+        if venc:
+            data["data_vencimento"] = venc
+        if valor:
+            data["valor"] = valor
+
+    # 🔁 FALLBACK: se não encontrou no boleto original
+    if "valor" not in data:
+        valor_match = re.search(r"R\$[\s]*([\d.,]+)", text)
+        if valor_match:
+            data["valor"] = normalize_valor(valor_match.group(1))
+
+    if "data_vencimento" not in data:
+        venc_match = re.search(
+            r"(?:Vencimento|VCTO)[^\d]*(\d{2}/\d{2}/\d{4})",
+            text,
+            re.IGNORECASE
+        )
+        if venc_match:
+            data["data_vencimento"] = venc_match.group(1)
+
+    # Linha digitável (continua igual)
     linha_match = re.search(
         r"\d{5}\.\d{5}\s\d{5}\.\d{6}\s\d{5}\.\d{6}\s\d\s\d{14}",
         text
@@ -136,3 +172,4 @@ def extract_boleto_data(text: str) -> dict:
         data["linha_digitavel"] = linha_match.group(0)
 
     return data
+

@@ -133,7 +133,7 @@ async def upload_boletos(
             boletos_para_email.append(boleto)
             anexos_email.append(boleto.arquivo_path)
 
-            status = "salvo"
+            status = "salvo_enviado"
 
         except ValueError:
             logger.warning(

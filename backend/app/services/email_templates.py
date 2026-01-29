@@ -40,7 +40,7 @@ def template_cobranca_boleto(boletos: list, logo_cid: str) -> str:
 
             <p>
                 Atenciosamente,<br>
-                <strong>Equipe Financeira</strong>
+                <strong>Osmar David Sampaio</strong>
             </p>
         </body>
     </html>
