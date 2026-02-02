@@ -1,6 +1,7 @@
 # Importando FASTAPI
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.core.database import Base, engine
 
 import os
 
@@ -19,6 +20,7 @@ app = FastAPI(
 
 @app.on_event("startup")
 def startup_event():
+  Base.metadata.create_all(bind=engine)
   start_scheduler()
 
 app.add_middleware(

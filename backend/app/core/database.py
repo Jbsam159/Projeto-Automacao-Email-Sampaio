@@ -5,6 +5,9 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
 from typing import Generator
 
+from app.models.boleto import Boleto
+from app.models.email_enviado import EmailEnviado
+
 
 # Carregando as variáveis de ambiente
 load_dotenv()
