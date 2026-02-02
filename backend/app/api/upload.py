@@ -1,8 +1,8 @@
 from fastapi import APIRouter, UploadFile, File, Depends
 from sqlalchemy.orm import Session
 import os
-from email.utils import make_msgid
 
+from email.utils import make_msgid
 from app.core.database import get_db
 from app.services.file_service import generate_sha256
 from app.services.boleto_extractor import extract_text, extract_boleto_data
@@ -156,10 +156,10 @@ async def upload_boletos(
             enviar_email(
                 para=email_cliente,
                 assunto="Boletos em Aberto",
-                corpo_html=corpo_email,
-                anexos=anexos_email,
-                logo_path="app/static/images/sampaio_logo.jpg",
-                logo_cid=logo_cid
+                html="""
+                <h2>Boleto disponível</h2>
+                <p>Seu boleto foi processado com sucesso.</p>
+                """,
             )
 
             logger.info(
