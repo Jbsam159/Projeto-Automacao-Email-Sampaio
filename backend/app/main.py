@@ -12,6 +12,10 @@ from app.api import boletos
 # Importando scheduler
 from app.core.scheduler import start_scheduler
 
+# Importando Modelos
+from app.models import Boleto
+from app.models import EmailEnviado
+
 app = FastAPI(
   title="Automação de Cobrança via Email",
   description="API para upload e processamento de boletos vencidos",
