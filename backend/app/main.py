@@ -23,7 +23,7 @@ def startup_event():
 
 app.add_middleware(
   CORSMiddleware,
-  allow_origins=["http://localhost:5173","https://seu-front.vercel.app"],  # frontend
+  allow_origins=["http://localhost:5173","https://projeto-automacao-email-sampaio.onrender.com"],  # frontend
   allow_credentials=True,
   allow_methods=["*"],
   allow_headers=["*"],
