@@ -17,7 +17,11 @@ def template_cobranca_boleto(boletos: list, logo_cid: str) -> str:
     <html>
         <body style="font-family: Arial, sans-serif; ">
             <div style="text-align: center; margin-bottom: 20px;">
-                <img src="cid:{logo_cid}" width="180" style="margin-bottom:20px;" />
+                <img
+                    src="https://projeto-automacao-email-sampaio.onrender.com/sampaio_logo.jpg"
+                    alt="Sampaio Cobranças"
+                    style="max-width:180px; margin-bottom:20px;"
+                />
             </div>
 
             <p>Olá,</p>

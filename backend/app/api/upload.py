@@ -156,10 +156,8 @@ async def upload_boletos(
             enviar_email(
                 para=email_cliente,
                 assunto="Boletos em Aberto",
-                html="""
-                <h2>Boleto disponível</h2>
-                <p>Seu boleto foi processado com sucesso.</p>
-                """,
+                corpo_html=corpo_email,
+                anexos=anexos_email
             )
 
             logger.info(

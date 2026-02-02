@@ -77,10 +77,11 @@ RESEND_URL = "https://api.resend.com/emails"
 
 
 def enviar_email(
+    *,
     para: str,
     assunto: str,
     corpo_html: str,
-    anexos: list[str],
+    anexos: list[str] | None = None,
     logo_url: str | None = None,  # 👈 mudou
 ) -> None:
 
@@ -98,14 +99,16 @@ def enviar_email(
 
     attachments = []
 
-    for anexo_path in anexos:
-        with open(anexo_path, "rb") as f:
-            encoded = base64.b64encode(f.read()).decode()
+    if anexos:
+      for anexo_path in anexos:
+          with open(anexo_path, "rb") as f:
+              encoded = base64.b64encode(f.read()).decode()
 
-        attachments.append({
-            "filename": os.path.basename(anexo_path),
-            "content": encoded,
-        })
+          attachments.append({
+              "filename": os.path.basename(anexo_path),
+              "content": encoded,
+              "content_type": "application/pdf"
+          })
 
     payload = {
         "from": settings.email_from,
@@ -115,12 +118,18 @@ def enviar_email(
         "attachments": attachments,
     }
 
+    if attachments:
+      payload["attachments"] = attachments
+
     response = requests.post(
         RESEND_URL,
         headers=headers,
         json=payload,
         timeout=10,
     )
+
+    print("STATUS:", response.status_code)
+    print("RESPOSTA:", response.text)
 
     if response.status_code >= 400:
         raise RuntimeError(
