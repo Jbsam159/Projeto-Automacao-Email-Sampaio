@@ -25,6 +25,7 @@ def criar_boletos(db: Session, dados: dict) -> Boleto:
         data_vencimento = datetime.strptime(
             data_vencimento, "%d/%m/%Y"
         ).date()
+        dados["data_vencimento"] = data_vencimento
 
     # 🧠 Define status automaticamente
     dados["status"] = verificar_vencimento(data_vencimento)
