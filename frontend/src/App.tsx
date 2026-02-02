@@ -3,25 +3,40 @@ import { BrowserRouter, Routes, Route, Navigate, Link} from "react-router-dom";
 // Importando Pages
 import { UploadBoletos } from "./pages/UploadBoletos"
 import HistoricoBoletos from "./pages/HistoricoBoletos"
+import { Footer } from "./components/Footer";
 
 function App() {
   return (
-    <BrowserRouter>
+    <div className="app-layout">
+      <BrowserRouter>
 
-      <Link to="/">Upload</Link>
-      <Link to="/historico">Histórico</Link>
+        <nav className="navbar">
+          <h2 className="navbar-logo">📄 Automação de Boletos</h2>
 
-      <Routes>
-        {/* Tela principal */}
-        <Route path="/" element={<UploadBoletos />} />
+          <div className="navbar-links">
+            <Link className="nav-link" to="/">Upload</Link>
+            <Link className="nav-link" to="/historico">Histórico</Link>
+          </div>
+        </nav>
 
-        {/* Histórico */}
-        <Route path="/historico" element={<HistoricoBoletos />} />
+        <div className="app-content">
 
-        {/* Rota inválida → redireciona */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </BrowserRouter>
+          <Routes>
+            {/* Tela principal */}
+            <Route path="/" element={<UploadBoletos />} />
+
+            {/* Histórico */}
+            <Route path="/historico" element={<HistoricoBoletos />} />
+
+            {/* Rota inválida → redireciona */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+
+        </div>
+
+        <Footer />
+      </BrowserRouter>
+    </div>
   );
 }
 

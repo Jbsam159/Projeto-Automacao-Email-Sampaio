@@ -19,6 +19,15 @@ export function UploadBoletos() {
   const [resultados, setResultados] = useState<UploadResult[]>([]);
   const [erro, setErro] = useState<string | null>(null);
 
+  /*const statusLabels: Record<string, string> = {
+    salvo: "Boleto processado com sucesso",
+    duplicado: "Boleto já havia sido enviado",
+    arquivo_invalido: "Arquivo inválido (apenas PDF)",
+    pdf_vazio: "PDF vazio ou corrompido",
+    erro_extracao: "Erro ao extrair dados do boleto",
+    dados_incompletos: "Dados incompletos no boleto"
+  };*/
+
   function validarFormulario() {
     if (!email) {
       setErro("Informe o email do cliente.");
@@ -27,15 +36,6 @@ export function UploadBoletos() {
 
     if (files.length === 0) {
       setErro("Selecione ao menos um arquivo PDF.");
-      return false;
-    }
-
-    const algumNaoPdf = files.some(
-      (file) => file.type !== "application/pdf"
-    );
-
-    if (algumNaoPdf) {
-      setErro("Todos os arquivos devem ser PDF.");
       return false;
     }
 
@@ -68,7 +68,7 @@ export function UploadBoletos() {
       setResultados(response.data.files);
     } catch (err) {
       console.error(err);
-      setErro("Erro ao enviar boletos. Verifique o backend.");
+      setErro("Erro ao enviar boletos. Tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -118,16 +118,40 @@ export function UploadBoletos() {
       )}
 
       {!loading && resultados.length > 0 && (
+
         <div className="resultados">
           <h3>Resultado do processamento</h3>
 
-          <ul>
+          <div className="result-list">
             {resultados.map((item, index) => (
-              <li key={index}>
-                <strong>{item.filename}</strong> — {item.status}
-              </li>
+              <div key={index} className={`result-card ${item.status}`}>
+                <div className="result-header">
+                  <span className="result-icon">
+                    {item.status === "salvo_enviado" && "✅"}
+                    {item.status === "duplicado" && "⚠️"}
+                    {item.status === "arquivo_invalido" && "❌"}
+                    {item.status === "dados_incompletos" && "❌"}
+                  </span>
+
+                  <strong className="result-status">
+                    {item.status.replace("_", " ").toUpperCase()}
+                  </strong>
+                </div>
+
+                <p className="result-file">
+                  📄 {item.filename}
+                </p>
+
+                <p className="result-description">
+                  {item.status === "duplicado" && "Este boleto já havia sido processado."}
+                  {item.status === "salvo" && "Boleto processado com sucesso."}
+                  {item.status === "arquivo_invalido" && "Arquivo inválido (não é PDF)."}
+                  {item.status === "dados_incompletos" && "Dados importantes estão faltando."}
+                </p>
+              </div>
             ))}
-          </ul>
+        </div>
+          
         </div>
       )}
     </Card>

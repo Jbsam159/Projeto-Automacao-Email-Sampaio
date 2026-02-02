@@ -33,7 +33,7 @@ def enviar_email(
   msg["Subject"] = assunto
 
   # HTML do email
-  msg.set_content("Seu cliente de email não suporta HTML.")
+  msg.set_content("")
   msg.add_alternative(corpo_html, subtype="html")
 
   # 🔗 Logo inline (CID)

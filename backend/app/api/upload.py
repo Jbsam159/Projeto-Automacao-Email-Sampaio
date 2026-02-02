@@ -10,6 +10,7 @@ from app.services.boleto_service import criar_boletos
 from app.services.email_service import enviar_email
 from app.services.email_templates import template_cobranca_boleto
 from app.core.logger import get_logger
+from app.services.email_log_service import registrar_email_enviado
 
 logo_cid = make_msgid()[1:-1]
 
@@ -164,6 +165,15 @@ async def upload_boletos(
             logger.info(
                 f"Email enviado com sucesso | destinatario={email_cliente} | boletos={len(boletos_para_email)}"
             )
+
+            for boleto in boletos_para_email:
+                registrar_email_enviado(
+                    db=db,
+                    boleto_id=boleto.id,
+                    email_destinatario=email_cliente,
+                    assunto="Boletos em Aberto",
+                    status="enviado"
+                )
 
         except Exception as e:
             logger.error(

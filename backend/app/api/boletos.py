@@ -17,6 +17,11 @@ def listar_boletos(db: Session = Depends(get_db)):
       "data_vencimento": b.data_vencimento,
       "status": b.status,
       "email_cliente": b.email_cliente,
+      "data_envio": (
+        b.emails_enviados[-1].data_envio
+        if b.emails_enviados
+        else None
+      )
     }
     for b in boletos
   ]

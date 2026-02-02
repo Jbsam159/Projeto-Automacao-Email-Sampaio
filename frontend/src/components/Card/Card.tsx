@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import "./Card.css";
 
 type CardProps = {
   title?: string;

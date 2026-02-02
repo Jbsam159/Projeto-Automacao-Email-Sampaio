@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text
+from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from app.core.database import Base
@@ -17,3 +18,5 @@ class EmailEnviado(Base):
   erro = Column(Text, nullable=True)
 
   boleto = relationship("Boleto", back_populates="emails_enviados")
+  criado_em = Column(DateTime(timezone=True), server_default=func.now())
+

@@ -34,15 +34,18 @@ def template_cobranca_boleto(boletos: list, logo_cid: str) -> str:
                 {itens}
             </table>
 
+            <p>Segue anexo boleto atualizado.</p>
+            
             <p style="margin-top: 20px;">
                 Caso o pagamento já tenha sido realizado, por favor desconsidere este email.
             </p>
 
             <p>
-                Atenciosamente,<br>
-                <strong>Osmar David Sampaio</strong>
+                Atenciosamente<br><strong>Sampaio Distribuidora</strong><br>Osmar/Odmar
             </p>
         </body>
     </html>
     """
+
+
 
