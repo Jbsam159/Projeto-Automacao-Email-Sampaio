@@ -3,6 +3,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.database import Base, engine
 
+from app.core.config import settings
+
 import os
 
 # Importando Upload
@@ -29,7 +31,7 @@ def startup_event():
 
 app.add_middleware(
   CORSMiddleware,
-  allow_origins=["http://localhost:5173","https://projeto-automacao-email-sampaio.onrender.com"],  # frontend
+  allow_origins=[settings.frontend_url],  # frontend
   allow_credentials=True,
   allow_methods=["*"],
   allow_headers=["*"],

@@ -25,6 +25,9 @@ class Settings(BaseSettings):
     # 🗄️ Database
     database_url: str
 
+    # URL do Frontend
+    frontend_url: str
+
     # ✉️ Resend
     resend_api_key: str
     email_from: str
