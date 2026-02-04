@@ -10,7 +10,7 @@ from app.models.boleto import Boleto
 from app.models.email_enviado import EmailEnviado
 
 def limpar_boletos_expirados(db: Session):
-  limite = datetime.utcnow() - timedelta(minutes=1)
+  limite = datetime.utcnow() - timedelta(hours=22)
 
   boletos_expirados = db.query(Boleto).filter(
     Boleto.criado_em < limite
