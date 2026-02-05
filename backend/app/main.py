@@ -31,7 +31,7 @@ def startup_event():
 
 app.add_middleware(
   CORSMiddleware,
-  allow_origins=[settings.frontend_url],  # frontend
+  allow_origins=[settings.frontend_url, settings.frontend_dominio],  # frontend
   allow_credentials=True,
   allow_methods=["*"],
   allow_headers=["*"],

@@ -28,6 +28,9 @@ class Settings(BaseSettings):
     # URL do Frontend
     frontend_url: str
 
+    # URL do domínio
+    frontend_dominio: str
+
     # ✉️ Resend
     resend_api_key: str
     email_from: str
