@@ -6,7 +6,7 @@ def create_user():
     db = SessionLocal()
 
     try:
-        email = "user1@example.com"
+        email = "osmar"
         password = "123"
 
         # Verifica se já existe
