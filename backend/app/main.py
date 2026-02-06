@@ -10,6 +10,7 @@ import os
 # Importando Upload
 from app.api import upload
 from app.api import boletos
+from app.api import auth
 
 # Importando scheduler
 from app.core.scheduler import start_scheduler
@@ -17,6 +18,7 @@ from app.core.scheduler import start_scheduler
 # Importando Modelos
 from app.models import Boleto
 from app.models import EmailEnviado
+from app.models import user
 
 app = FastAPI(
   title="Automação de Cobrança via Email",
@@ -39,6 +41,7 @@ app.add_middleware(
 
 app.include_router(upload.router)
 app.include_router(boletos.router)
+app.include_router(auth.router)
 
 @app.get("/health")
 def health_check():

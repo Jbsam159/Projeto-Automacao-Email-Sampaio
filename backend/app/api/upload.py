@@ -11,6 +11,7 @@ from app.services.email_service import enviar_email
 from app.services.email_templates import template_cobranca_boleto
 from app.core.logger import get_logger
 from app.services.email_log_service import registrar_email_enviado
+from app.core.dependencies import get_current_user
 
 logo_cid = make_msgid()[1:-1]
 
@@ -25,8 +26,12 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 async def upload_boletos(
     email_cliente: str,
     files: list[UploadFile] = File(...),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    user_id: int = Depends(get_current_user),
 ):
+    
+    print("Usuário autenticado:", user_id)
+
     logger.info(
         f"Upload iniciado | email_cliente={email_cliente} | arquivos={len(files)}"
     )
