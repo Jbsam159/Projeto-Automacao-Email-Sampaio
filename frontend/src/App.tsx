@@ -1,9 +1,13 @@
-import { BrowserRouter, Routes, Route, Navigate, Link} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 
-// Importando Pages
-import { UploadBoletos } from "./pages/UploadBoletos"
-import HistoricoBoletos from "./pages/HistoricoBoletos"
+// Pages
+import { UploadBoletos } from "./pages/UploadBoletos";
+import HistoricoBoletos from "./pages/HistoricoBoletos";
+import Login from "./pages/Login";
+
+// Components
 import { Footer } from "./components/Footer";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -20,18 +24,35 @@ function App() {
         </nav>
 
         <div className="app-content">
-
           <Routes>
-            {/* Tela principal */}
-            <Route path="/" element={<UploadBoletos />} />
 
-            {/* Histórico */}
-            <Route path="/historico" element={<HistoricoBoletos />} />
+            {/* Login (rota pública) */}
+            <Route path="/login" element={<Login />} />
 
-            {/* Rota inválida → redireciona */}
+            {/* Upload (rota protegida) */}
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <UploadBoletos />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Histórico (rota protegida) */}
+            <Route
+              path="/historico"
+              element={
+                <PrivateRoute>
+                  <HistoricoBoletos />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Rota inválida */}
             <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
 
+          </Routes>
         </div>
 
         <Footer />

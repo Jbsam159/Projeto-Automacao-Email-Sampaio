@@ -19,15 +19,6 @@ export function UploadBoletos() {
   const [resultados, setResultados] = useState<UploadResult[]>([]);
   const [erro, setErro] = useState<string | null>(null);
 
-  /*const statusLabels: Record<string, string> = {
-    salvo: "Boleto processado com sucesso",
-    duplicado: "Boleto já havia sido enviado",
-    arquivo_invalido: "Arquivo inválido (apenas PDF)",
-    pdf_vazio: "PDF vazio ou corrompido",
-    erro_extracao: "Erro ao extrair dados do boleto",
-    dados_incompletos: "Dados incompletos no boleto"
-  };*/
-
   function validarFormulario() {
     if (!email) {
       setErro("Informe o email do cliente.");
