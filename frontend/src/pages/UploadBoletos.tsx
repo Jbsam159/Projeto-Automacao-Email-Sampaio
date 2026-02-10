@@ -6,6 +6,9 @@ import { Loading } from "../components/Loading/Loading";
 import { EmptyState } from "../components/EmptyState/EmptyState";
 import { Card } from "../components/Card/Card";
 
+import EmailSelect from "../components/EmailSelect";
+import { useEmailHistory } from "../hooks/useEmailHistory";
+
 type UploadResult = {
   filename: string;
   hash?: string;
@@ -18,6 +21,7 @@ export function UploadBoletos() {
   const [loading, setLoading] = useState(false);
   const [resultados, setResultados] = useState<UploadResult[]>([]);
   const [erro, setErro] = useState<string | null>(null);
+  const { emails, addEmail } = useEmailHistory();
 
   function validarFormulario() {
     if (!email) {
@@ -57,6 +61,7 @@ export function UploadBoletos() {
       );
 
       setResultados(response.data.files);
+      addEmail(email)
     } catch (err) {
       console.error(err);
       setErro("Erro ao enviar boletos. Tente novamente.");
@@ -73,12 +78,10 @@ export function UploadBoletos() {
       {/* FORM */}
       <div className="form-group">
         <label htmlFor="email">Email do cliente</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="cliente@email.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+        <EmailSelect
+        value={email}
+        onChange={setEmail}
+        options={emails}
         />
       </div>
 

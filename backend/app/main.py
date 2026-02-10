@@ -14,6 +14,7 @@ from app.api import auth
 
 # Importando scheduler
 from app.core.scheduler import start_scheduler
+from app.services.cleanup_service import limpar_boletos_expirados
 
 # Importando Modelos
 from app.models import Boleto

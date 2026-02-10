@@ -26,8 +26,8 @@ print("✅ Banco de PRODUÇÃO detectado")
 # 👤 DADOS DO USUÁRIO
 # ==============================
 
-EMAIL = ""
-PASSWORD = ""  # depois você pode trocar no banco ou criar outro script
+EMAIL = "admin@sampaiodf.com.br"
+PASSWORD = "145702"  # depois você pode trocar no banco ou criar outro script
 
 # ==============================
 # 🚀 CRIAÇÃO DO USUÁRIO

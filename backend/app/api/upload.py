@@ -29,7 +29,7 @@ async def upload_boletos(
     db: Session = Depends(get_db),
     user_id: int = Depends(get_current_user),
 ):
-    
+
     print("Usuário autenticado:", user_id)
 
     logger.info(
