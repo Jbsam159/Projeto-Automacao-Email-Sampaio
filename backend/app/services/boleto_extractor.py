@@ -14,12 +14,20 @@ def clean_nome_cliente(nome: str) -> str:
     return nome.strip()
 
 def normalize_valor(valor_str: str) -> Decimal | None:
-    try:
-        valor_str = valor_str.replace(".", "").replace(",", ".")
-        valor = Decimal(valor_str)
-        return valor.quantize(Decimal("0.00"), rounding=ROUND_HALF_UP)
-    except (InvalidOperation, AttributeError):
+    if not valor_str:
         return None
+
+    valor_str = valor_str.strip()
+
+    # Remove tudo que não for número, ponto ou vírgula
+    valor_str = re.sub(r"[^\d,\.]", "", valor_str)
+
+    # Caso tenha vírgula, assumimos padrão brasileiro
+    if "," in valor_str:
+        valor_str = valor_str.replace(".", "")  # remove milhar
+        valor_str = valor_str.replace(",", ".")  # troca decimal
+
+    return float(valor_str)
 
 
 # =========================

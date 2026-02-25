@@ -15,5 +15,5 @@ def job_limpeza():
     db.close()
 
 def start_scheduler():
-  scheduler.add_job(job_limpeza, "interval", minutes=10)
+  scheduler.add_job(job_limpeza, "interval", minutes=8)
   scheduler.start()
