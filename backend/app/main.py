@@ -34,6 +34,7 @@ def startup_event():
   try:
     Base.metadata.create_all(bind=engine)
     print("DATABASE OK")
+    print("Models Criados:"+Base.metadata.tables.keys())
   except Exception as e:
     print("DATABASE ERROR:", e)
 
