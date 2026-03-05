@@ -19,7 +19,7 @@ from app.services.cleanup_service import limpar_boletos_expirados
 # Importando Modelos
 from app.models import Boleto
 from app.models import EmailEnviado
-from app.models import user
+from app.models.user import User
 
 app = FastAPI(
   title="Automação de Cobrança via Email",
