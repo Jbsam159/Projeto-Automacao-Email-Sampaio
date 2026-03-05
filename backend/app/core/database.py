@@ -10,6 +10,7 @@ load_dotenv()
 
 # Pegando valor da URL do BD pelo env
 DATABASE_URL = os.getenv("DATABASE_URL")
+print("DATABASE_URL:", DATABASE_URL)
 
 # Criando engine
 engine = create_engine(DATABASE_URL,pool_pre_ping=True,pool_recycle=300 )

@@ -29,8 +29,21 @@ app = FastAPI(
 
 @app.on_event("startup")
 def startup_event():
-  Base.metadata.create_all(bind=engine)
-  start_scheduler()
+  print("APP STARTING...")
+
+  try:
+    Base.metadata.create_all(bind=engine)
+    print("DATABASE OK")
+  except Exception as e:
+    print("DATABASE ERROR:", e)
+
+  try:
+    start_scheduler()
+    print("SCHEDULER OK")
+  except Exception as e:
+    print("SCHEDULER ERROR:", e)
+
+  print("DATABASE_URL:", os.getenv("DATABASE_URL"))
 
 app.add_middleware(
   CORSMiddleware,
